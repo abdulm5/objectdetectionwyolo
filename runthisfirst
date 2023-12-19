@@ -298,3 +298,10 @@ def draw_boxes(image_, boxes, labels):
         #draw.text(text_origin, label, fill=(0, 0, 0))
         del draw
     return image
+
+import tensorflow as tf
+
+device_name = tf.test.gpu_device_name()
+if device_name != '/device:GPU:0':
+  raise SystemError('GPU device not found')
+print('Found GPU at: {}'.format(device_name))
