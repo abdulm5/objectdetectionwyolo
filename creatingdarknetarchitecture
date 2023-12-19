@@ -1,0 +1,10 @@
+import tensorflow as tf
+
+# Load model
+darknet = tf.keras.models.load_model(model_path)
+
+yolo_outputs = darknet.predict(new_image)
+print(len(yolo_outputs))
+print(yolo_outputs[0].shape)
+print(yolo_outputs[1].shape)
+print(yolo_outputs[2].shape)
