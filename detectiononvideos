@@ -1,0 +1,44 @@
+import cv2
+
+def detect_video(video_path, output_path, obj_thresh = 0.4, nms_thresh = 0.45, darknet=darknet, net_h=416, net_w=416, anchors=anchors, labels=labels):
+    vid = cv2.VideoCapture(video_path)
+    if not vid.isOpened():
+        raise IOError("Couldn't open webcam or video")
+    video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
+    video_FourCC    = cv2.VideoWriter_fourcc(*'mp4v')
+    video_fps       = vid.get(cv2.CAP_PROP_FPS)
+    video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                        int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+
+    out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
+
+    num_frame = 0
+    while vid.isOpened():
+      ret, frame = vid.read()
+      num_frame += 1
+      #print("=== Frame {} ===".format(num_frame))
+      if ret:
+          ### YOUR CODE HERE
+          frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+          image = Image.fromarray(frame)
+
+          result = detect_image(image)
+
+          new_frame = np.asarray(result)
+          new_frame = cv2.cvtColor(new_frame, cv2.COLOR_RGB2BGR)
+          ### END CODE
+          out.write(new_frame)
+      else:
+          break
+    vid.release()
+    out.release()
+    print("New video saved!")
+
+vid = cv2.VideoCapture('/content/data/video1.mp4')
+h = int(vid.get(cv2.CAP_PROP_FOURCC))
+codec = chr(h&0xff) + chr((h>>8)&0xff) + chr((h>>16)&0xff) + chr((h>>24)&0xff)
+print(codec)
+
+video_path = '/content/data/video1.mp4'
+output_path = '/content/data/video1_detected.mp4'
+detect_video(video_path, output_path)
