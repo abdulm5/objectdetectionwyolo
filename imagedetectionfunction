@@ -1,0 +1,28 @@
+def detect_image(image_pil, obj_thresh = 0.4, nms_thresh = 0.45, darknet=darknet, net_h=416, net_w=416, anchors=anchors, labels=labels):
+  pass
+
+def detect_image(image_pil, obj_thresh = 0.4, nms_thresh = 0.45, darknet=darknet, net_h=416, net_w=416, anchors=anchors, labels=labels):
+
+  # Preprocessing
+  image_w, image_h = image_pil.size
+  new_image = preprocess_input(image_pil, net_h, net_w)
+
+  # DarkNet
+  yolo_outputs = darknet.predict(new_image)
+
+  # Decode the output of the network
+  boxes = decode_netout(yolo_outputs, obj_thresh, anchors, image_h, image_w, net_h, net_w)
+
+  # Suppress non-maximal boxes
+  boxes = do_nms(boxes, nms_thresh, obj_thresh)
+
+  # Draw bounding boxes on the image using labels
+  image_detect = draw_boxes(image_pil, boxes, labels)
+
+  return image_detect
+     
+
+#@title Run this to check your function definition { display-mode: "form" }
+plt.figure(figsize=(12,12))
+plt.imshow(detect_image(image_pil))
+plt.show()
