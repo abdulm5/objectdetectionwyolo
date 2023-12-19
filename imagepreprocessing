@@ -1,0 +1,26 @@
+anchors = [[[116,90], [156,198], [373,326]], [[30,61], [62,45], [59,119]], [[10,13], [16,30], [33,23]]]
+# defining the bounding boxes, there are 9 anchor boxes in total. As we'll talk about later, the detection is performed on 3 scales. Therefore, the anchor boxes are divided into 3 groups, each corresponding to 1 scale.
+from PIL import Image
+from matplotlib import  pyplot as plt
+
+image_path = '/content/data/image.jpg'
+
+image_pil = Image.open(image_path)
+image_w, image_h = image_pil.size
+print("The type of the saved image is {}".format(type(image_pil)))
+plt.imshow(image_pil)
+plt.show()
+# Now, let's load the image that we'll apply object detection on. To load the image, we'll use the Image module in the package PIL, which is commonly used for image processing. The image is saved as a PIL image in the variable image_pil. We can get the width and the height of the image by accessing the size attribute of the image.
+
+# The input size of DarkNet is (416, 416), so we need to preprocess our image into the required size by resizing our image, keeping the aspect ratio consistent, and padding the left out areas with the grey color, which is (128,128,128) in RGB. We have implemented the preprocessing for you in the preprocess_input(image, net_h, net_w) function, which takes as input the original image, the target height (net_h) and target width (net_w) and returns the new image in the required size.
+#@title Instructor Solution { display-mode: "form" }
+
+net_h, net_w = 416, 416
+new_image = preprocess_input(image_pil, net_h, net_w)
+     
+
+#@title Run this to check the new image { display-mode: "form" }
+plt.imshow(new_image[0])
+plt.show()
+
+     
