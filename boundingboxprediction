@@ -1,0 +1,26 @@
+obj_thresh = 0.4
+nms_thresh = 0.45
+
+boxes = decode_netout(yolo_outputs, obj_thresh, anchors, image_h, image_w, net_h, net_w)
+
+# Suppress non-maximal boxes
+boxes = do_nms(boxes, nms_thresh, obj_thresh)
+
+# Draw bounding boxes on the image using labels
+image_detect = draw_boxes(image_pil, boxes, labels)
+
+plt.figure(figsize=(12,12))
+plt.imshow(image_detect)
+plt.show() 
+
+# Non maximal Supression
+boxes = decode_netout(yolo_outputs, obj_thresh, anchors, image_h, image_w, net_h, net_w)
+plt.figure(figsize=(10,10))
+plt.imshow(draw_boxes(image_pil, boxes, labels))
+plt.show()
+# NMS
+boxes = do_nms(boxes, nms_thresh, obj_thresh)
+plt.figure(figsize=(10,10))
+plt.imshow(draw_boxes(image_pil, boxes, labels))
+plt.show()
+
