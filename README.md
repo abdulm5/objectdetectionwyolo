@@ -1,0 +1,1 @@
+This was a project I created over the summer which allows people to input a video and have YOLO detect certain images based on the classes created and outputed a video that has bounding boxes around the objects. 
